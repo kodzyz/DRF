@@ -16,11 +16,12 @@ Including another URLconf
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
-
+from client.views import ClientAPIView
 from drf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/v1/clientlist/', ClientAPIView.as_view()),
 ]
 
 if settings.DEBUG:

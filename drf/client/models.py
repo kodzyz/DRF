@@ -9,6 +9,9 @@ class ClientUser(AbstractUser):
     avatar = models.ImageField(upload_to="photos/%Y/%m/%d", verbose_name='Аватар', null=True, blank=True)
     cat = models.ForeignKey('Category', on_delete=models.PROTECT, verbose_name='Категории', null=True)
 
+    def __str__(self):
+        return self.email
+
     class Meta:
         verbose_name = 'пользователь'
         verbose_name_plural = 'пользователи'
