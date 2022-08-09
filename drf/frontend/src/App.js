@@ -2,63 +2,35 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import ClientList from './components/Client.js'
+import axios from 'axios'
 
 class App extends React.Component{
 
     constructor(props){
         super(props)
         this.state = {
-            'authors': []
+            'users': []
         }
     }
 
     componentDidMount(){
-        const authors = [
-            {
-                 "username": "root",
-                 "first_name": "Константин",
-                 "last_name": "Давидюк",
-                 "age": 42,
-                 "email": "root@mail.ru",
-                 "cat": 1
-            },
-            {
-                    "username": "demn",
-                    "first_name": "Дмитрий",
-                    "last_name": "Егоров",
-                    "age": 45,
-                    "email": "yegorov@mail.ru",
-                    "cat": 2
-            },
-            {
-                    "username": "true",
-                    "first_name": "Андрей",
-                    "last_name": "Трусов",
-                    "age": 36,
-                    "email": "trusov@mail.ru",
-                    "cat": 3
-            },
-            {
-                    "username": "Anastasi",
-                    "first_name": "",
-                    "last_name": "",
-                    "age": null,
-                    "email": "nasta@mail.ru",
-                    "cat": 2
-            },
-        ]
-        this.setState(
-            {
-                'authors': authors
-            }
-        )
-
+        axios
+            .get('http://127.0.0.1:8000/api/v1/clientlist/')
+            .then(response => {
+                const users = response.data
+                    this.setState(
+                    {
+                        'users': users
+                    }
+                )
+            })
+            .catch(error => console.log(error))
     }
 
     render(){
         return(
             <div>
-                <ClientList clients={this.state.authors} />
+                <ClientList clients={this.state.users} />
             </div>
         )
     }
