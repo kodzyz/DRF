@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'client.apps.ClientConfig',
 
     'corsheaders',
+
+    'todo.apps.TodoConfig',
 ]
 
 MIDDLEWARE = [

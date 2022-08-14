@@ -15,13 +15,26 @@ Including another URLconf
 """
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+
 from client.views import ClientAPIView
 from drf import settings
+from todo.views import ProjectGetModeViewSet, ProjectGetPostModeViewSet, ToDoGetModeViewSet, project_get
+
+router = DefaultRouter()
+router.register('project_get', ProjectGetModeViewSet)
+router.register('project', ProjectGetPostModeViewSet)
+
+router.register('todo_get', ToDoGetModeViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/clientlist/', ClientAPIView.as_view()),
+
+    path('api/', include(router.urls)),
+
+    path('project_get', project_get),
 ]
 
 if settings.DEBUG:
