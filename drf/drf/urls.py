@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from client.views import ClientAPIView
+from client.views import ClientAPIView, ClientUserCustomViewSet
 from drf import settings
 from todo.views import ProjectGetModeViewSet, ProjectGetPostModeViewSet, ToDoGetModeViewSet, project_get
 
@@ -28,6 +28,8 @@ router.register('project', ProjectGetPostModeViewSet)
 
 router.register('todo_get', ToDoGetModeViewSet)
 
+router.register('user', ClientUserCustomViewSet)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/clientlist/', ClientAPIView.as_view()),
@@ -35,6 +37,11 @@ urlpatterns = [
     path('api/', include(router.urls)),
 
     path('project_get', project_get),
+
+    # ClientUserCustom
+    path('user_list', ClientUserCustomViewSet.as_view({'get': 'list'})),
+    path('user_retrieve/<int:pk>', ClientUserCustomViewSet.as_view({'get': 'retrieve', 'put': 'retrieve'})),
+    path('user_patch/<int:pk>', ClientUserCustomViewSet.as_view({'patch': 'retrieve'})),
 ]
 
 if settings.DEBUG:
