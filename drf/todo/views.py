@@ -1,8 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.renderers import JSONRenderer
 from rest_framework.viewsets import ModelViewSet
 
+from todo.filters import ProjectFilter
 from todo.models import Project, ToDo
 from todo.serializers import ProjectGetSerializer, ToDoGetSerializer, ProjectSerializer, ProjectGetPostSerializer
 
@@ -28,3 +30,15 @@ def project_get(request):
 
     json_data = JSONRenderer().render(serializer.data)
     return HttpResponse(json_data)
+
+
+class ArticleLimitOffsetPagination(LimitOffsetPagination):
+    default_limit = 1
+
+
+class ProjectCustomFilterViewSet(ModelViewSet):
+    queryset = Project.objects.all()
+    serializer_class = ProjectGetPostSerializer
+    filterset_class = ProjectFilter
+    pagination_class = ArticleLimitOffsetPagination
+
