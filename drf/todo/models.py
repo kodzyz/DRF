@@ -24,13 +24,14 @@ class ToDo(models.Model):
     author = models.ForeignKey(ClientUser, on_delete=models.CASCADE, verbose_name='Автор заметки')
     is_active = models.BooleanField(default=True, verbose_name='Активность')
 
+    is_deleted = models.BooleanField(default=False, verbose_name='Удален', null=True)
+
     def __str__(self):
         return f'{self.content} {self.author}'
 
     class Meta:
         verbose_name = 'заметка'
         verbose_name_plural = 'заметки'
-
 
 
 

@@ -6,7 +6,8 @@ from rest_framework.viewsets import ModelViewSet
 
 from todo.filters import ProjectFilter
 from todo.models import Project, ToDo
-from todo.serializers import ProjectGetSerializer, ToDoGetSerializer, ProjectSerializer, ProjectGetPostSerializer
+from todo.serializers import ProjectGetSerializer, ToDoGetSerializer, ProjectSerializer, ProjectGetPostSerializer, \
+    ToDoSerializer
 
 
 class ProjectGetModeViewSet(ModelViewSet):
@@ -42,3 +43,17 @@ class ProjectCustomFilterViewSet(ModelViewSet):
     filterset_class = ProjectFilter
     pagination_class = ArticleLimitOffsetPagination
 
+
+class TodoLimitOffsetPagination(LimitOffsetPagination):
+    default_limit = 1
+
+
+class TodoModelViewSet(ModelViewSet):
+    queryset = ToDo.objects.all()
+    serializer_class = ToDoSerializer
+    pagination_class = TodoLimitOffsetPagination
+
+    def perform_destroy(self, instance):
+        instance.is_deleted = True
+        instance.is_active = False
+        instance.save()

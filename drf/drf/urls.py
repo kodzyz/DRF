@@ -21,7 +21,7 @@ from rest_framework.routers import DefaultRouter
 from client.views import ClientAPIView, ClientUserCustomViewSet
 from drf import settings
 from todo.views import ProjectGetModeViewSet, ProjectGetPostModeViewSet, ToDoGetModeViewSet, project_get, \
-    ProjectCustomFilterViewSet
+    ProjectCustomFilterViewSet, TodoModelViewSet
 
 router = DefaultRouter()
 filter_router = DefaultRouter()
@@ -34,6 +34,7 @@ router.register('todo_get', ToDoGetModeViewSet)
 router.register('user', ClientUserCustomViewSet)
 
 filter_router.register('project', ProjectCustomFilterViewSet)
+filter_router.register('todo', TodoModelViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
