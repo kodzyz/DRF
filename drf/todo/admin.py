@@ -9,9 +9,9 @@ class ProjectAdmin(admin.ModelAdmin):
 
 
 class ToDoAdmin(admin.ModelAdmin):
-    list_display = ('id', 'author', 'content', 'time_create', 'time_update', 'project', 'is_active')
+    list_display = ('id', 'author', 'content', 'time_create', 'time_update', 'project', 'is_active', 'is_deleted')
     list_display_links = ('id', 'project', 'author')
-    search_fields = ('author', 'content')
+    search_fields = ('author', 'content', 'is_deleted')
 
 
 # Register your models here.

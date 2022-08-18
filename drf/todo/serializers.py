@@ -20,7 +20,6 @@ class ProjectGetSerializer(serializers.ModelSerializer):
 
 
 class ProjectGetPostSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Project
         fields = '__all__'
@@ -30,6 +29,12 @@ class ToDoGetSerializer(serializers.ModelSerializer):
     project = ProjectGetSerializer()
     author = ClientSerializer()
 
+    class Meta:
+        model = ToDo
+        fields = '__all__'
+
+
+class ToDoSerializer(serializers.ModelSerializer):
     class Meta:
         model = ToDo
         fields = '__all__'
