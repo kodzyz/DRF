@@ -41,7 +41,7 @@ class ProjectCustomFilterViewSet(ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectGetPostSerializer
     filterset_class = ProjectFilter
-    pagination_class = ArticleLimitOffsetPagination
+    #pagination_class = ArticleLimitOffsetPagination
 
 
 class TodoLimitOffsetPagination(LimitOffsetPagination):
@@ -51,7 +51,7 @@ class TodoLimitOffsetPagination(LimitOffsetPagination):
 class TodoModelViewSet(ModelViewSet):
     queryset = ToDo.objects.all()
     serializer_class = ToDoSerializer
-    pagination_class = TodoLimitOffsetPagination
+    #pagination_class = TodoLimitOffsetPagination
 
     def perform_destroy(self, instance):
         instance.is_deleted = True
