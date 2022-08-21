@@ -1,8 +1,11 @@
-import React from 'react';
+import {Link} from 'react-router-dom'
 
 const ClientItem = ({client}) => {
     return(
         <tr>
+            <td>
+                {client.id}
+            </td>
             <td>
                 {client.username}
             </td>
@@ -16,7 +19,7 @@ const ClientItem = ({client}) => {
                 {client.age}
             </td>
             <td>
-                {client.email}
+               <Link to={`/users/${client.id}`}>{client.email}</Link>
             </td>
             <td>
                 {client.cat}
@@ -28,6 +31,9 @@ const ClientItem = ({client}) => {
 const ClientList = ({clients}) => {
     return(
         <table>
+            <th>
+                ID
+            </th>
             <th>
                 User name
             </th>
