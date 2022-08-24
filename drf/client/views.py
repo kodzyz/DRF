@@ -12,8 +12,9 @@ class ClientAPIView(generics.ListCreateAPIView):  # GET/POST
 
 
 class ClientUserCustomViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,
-                              mixins.UpdateModelMixin, viewsets.GenericViewSet):
-    """GET, PUT, PATCH"""
+                              mixins.CreateModelMixin, mixins.UpdateModelMixin,
+                              mixins.DestroyModelMixin, viewsets.GenericViewSet):
+    """GET, PUT, PATCH, DELETE, POST"""
     queryset = ClientUser.objects.all()
     renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
     serializer_class = ClientSerializer
