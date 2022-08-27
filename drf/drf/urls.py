@@ -22,6 +22,9 @@ from client.views import ClientAPIView, ClientUserCustomViewSet
 from drf import settings
 from todo.views import ProjectGetModeViewSet, ProjectGetPostModeViewSet, ToDoGetModeViewSet, project_get, \
     ProjectCustomFilterViewSet, TodoModelViewSet
+# authtoken
+from rest_framework.authtoken import views
+
 
 router = DefaultRouter()
 filter_router = DefaultRouter()
@@ -50,6 +53,10 @@ urlpatterns = [
     path('user_patch/<int:pk>', ClientUserCustomViewSet.as_view({'patch': 'retrieve'})),
     # filter_router
     path('filters/', include(filter_router.urls)),
+    # authentication log in -> log out
+    path('api-auth/', include('rest_framework.urls')),
+    #authtoken
+    path('api-auth-token/', views.obtain_auth_token),
 
 ]
 
