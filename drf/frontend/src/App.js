@@ -31,6 +31,10 @@ class App extends React.Component{
         }
     }
 
+    obtainAuthToken(login, password) {
+        console.log('obtainAuthToken:', login, password)
+    }
+
     componentDidMount(){
         axios
             .get('http://127.0.0.1:8000/api/user/')
@@ -82,7 +86,7 @@ class App extends React.Component{
                         <Route exact path='/' element={<Navigate to='/users'/> } />
                         <Route exact path='/project' element={<ProjectList projects={this.state.projects} />} />
                         <Route exact path='/todo' element={<TodoList todoes={this.state.todoes} /> }  />
-                        <Route exact path='/login' element={<LoginForm />} />
+                        <Route exact path='/login' element={<LoginForm obtainAuthToken={(login, password) => this.obtainAuthToken(login, password)} />} />
                         <Route path='/users'>
                             <Route index element={<ClientList clients={this.state.users} />} />
                             <Route path=':usersId' element={<UserProjectList projects={this.state.projects} /> } />
