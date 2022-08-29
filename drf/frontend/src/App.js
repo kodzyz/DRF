@@ -27,17 +27,51 @@ class App extends React.Component{
         this.state = {
             'users': [],
             'projects': [],
-            'todoes': []
+            'todoes': [],
+            'token': ''
         }
     }
 
     obtainAuthToken(login, password) {
-        console.log('obtainAuthToken:', login, password)
+        axios
+        .post('http://127.0.0.1:8000/api-auth-token/', {
+            'username': login,
+            'password': password
+        })
+            .then(response => {
+                const token = response.data.token
+                console.log('token:', token)
+                this.setState({
+                        'token': token //сохраним состояние
+                }, this.getData)  // getData вызываем вторым параметром
+            })
+            .catch(error => console.log(error))
+    }
+
+    // проверка авторизации
+    isAuth(){
+        return this.state.token != ''
     }
 
     componentDidMount(){
+        this.getData()
+    }
+
+    // формирование заголовков
+    getHeaders(){
+        if(this.isAuth()){
+            return {
+                'Authorization': 'Token ' + this.state.token
+            }
+        }
+        return {}
+    }
+
+    getData(){
+        let headers = this.getHeaders()
+
         axios
-            .get('http://127.0.0.1:8000/api/user/')
+            .get('http://127.0.0.1:8000/api/user/', {headers})
             .then(response => {
                 const users = response.data
                     this.setState(
@@ -48,7 +82,7 @@ class App extends React.Component{
             })
             .catch(error => console.log(error))
         axios
-            .get('http://127.0.0.1:8000/filters/project/')
+            .get('http://127.0.0.1:8000/filters/project/', {headers})
             .then(response => {
                 const projects = response.data
                 this.setState(
@@ -59,7 +93,7 @@ class App extends React.Component{
             })
             .catch(error => console.log(error))
         axios
-            .get('http://127.0.0.1:8000/filters/todo/')
+            .get('http://127.0.0.1:8000/filters/todo/', {headers})
             .then(response => {
                 const todoes = response.data
                 this.setState(
