@@ -51,7 +51,7 @@ class App extends React.Component{
 
     // проверка авторизации
     isAuth(){
-        return this.state.token != ''
+        return !!this.state.token
     }
 
     componentDidMount(){
@@ -84,7 +84,11 @@ class App extends React.Component{
                     }
                 )
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error)
+                this.setState({ 'users': [] }) // очищаем список после logout
+
+            })
         axios
             .get('http://127.0.0.1:8000/filters/project/', {headers})
             .then(response => {
@@ -95,7 +99,10 @@ class App extends React.Component{
                     }
                 )
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error)
+                this.setState({ 'projects': [] })
+            })
         axios
             .get('http://127.0.0.1:8000/filters/todo/', {headers})
             .then(response => {
@@ -106,7 +113,17 @@ class App extends React.Component{
                     }
                 )
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error)
+                this.setState({ 'todoes': [] })
+            })
+    }
+
+    logOut() {
+        localStorage.setItem('token', '') // пустая строка - загашенный токен
+        this.setState({
+            'token': ''
+        }, this.getData) // перегружаем данные
     }
 
     render(){
@@ -117,8 +134,7 @@ class App extends React.Component{
                         <li> <Link to='/'>Users</Link></li>
                         <li> <Link to='/project'>Projects</Link></li>
                         <li> <Link to='/todo'>Notes</Link></li>
-                        <li> <Link to='/login'> login </Link> </li>
-
+                        <li> {this.isAuth() ? <button onClick={() => this.logOut()} > logout </button> : <Link to='/login'> login </Link>} </li>
                      </nav>
                     <Routes>
                         <Route exact path='/' element={<Navigate to='/users'/> } />
