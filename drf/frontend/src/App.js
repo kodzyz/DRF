@@ -39,8 +39,9 @@ class App extends React.Component{
             'password': password
         })
             .then(response => {
-                const token = response.data.token
+                const token = response.data.token // получили token
                 console.log('token:', token)
+                localStorage.setItem('token', token) // сохранили token
                 this.setState({
                         'token': token //сохраним состояние
                 }, this.getData)  // getData вызываем вторым параметром
@@ -54,7 +55,10 @@ class App extends React.Component{
     }
 
     componentDidMount(){
-        this.getData()
+        let token = localStorage.getItem('token') // востанавливаем token из хранилища
+        this.setState({
+            'token': token
+        }, this.getData)
     }
 
     // формирование заголовков
