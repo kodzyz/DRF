@@ -1,9 +1,12 @@
 from django.test import TestCase
 from rest_framework.test import APIRequestFactory, force_authenticate, APIClient, APITestCase
+from rest_framework.utils import json
+
 from .views import TodoModelViewSet, ProjectCustomFilterViewSet
 from rest_framework import status
 from client.models import ClientUser
 from .models import Project, ToDo
+from mixer.backend.django import mixer
 
 
 class ProjectAPIClient(TestCase):
@@ -35,20 +38,17 @@ class ProjectAPIClient(TestCase):
 class ToDoAPITestCase(APITestCase):
     def setUp(self) -> None:
         self.admin = ClientUser.objects.create_superuser(username='root', password='1234')
-        self.project = Project.objects.create(
-            name='Django REST Framework',
-            repo='https://github.com/dromanow/DRF_2022_08_01'
-        )
-        self.todo = ToDo.objects.create(
-            content='Последний фрагмент кода демонстрирует Serializer',
-            project=self.project,
-            author=self.admin
-        )
+        self.project = mixer.blend(Project)
+        self.todo = mixer.blend(ToDo, content='Последний фрагмент кода демонстрирует Serializer', project__name='Django REST Framework')
         self.client.login(username='root', password='1234')
 
     def test_get_APITestCase(self):
         response = self.client.get(f'/filters/todo/{self.todo.id}/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        response_project = json.loads(response.content)
+        print(response_project)
+        self.assertEqual(response_project['content'], 'Последний фрагмент кода демонстрирует Serializer')
+        self.assertEqual(response_project['project']['name'], 'Django REST Framework')
         self.client.logout()
         response = self.client.get('/filters/todo/')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -62,4 +62,3 @@ class ToDoAPITestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         todo = ToDo.objects.get(pk=response.data.get('id'))
         self.assertEqual(todo.content, 'Рекомендуется явно указывать список полей.')
-
