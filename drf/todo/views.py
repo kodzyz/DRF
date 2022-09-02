@@ -57,3 +57,8 @@ class TodoModelViewSet(ModelViewSet):
         instance.is_deleted = True
         instance.is_active = False
         instance.save()
+
+    def get_serializer_class(self):
+        if self.request.method in ['GET']:
+            return ToDoGetSerializer
+        return ToDoSerializer
