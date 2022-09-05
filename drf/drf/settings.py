@@ -167,7 +167,7 @@ REST_FRAMEWORK = {
     # 'PAGE_SIZE': 2
 
     # API version
-    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning'
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.QueryParameterVersioning'
 }
 
 if DEBUG:
