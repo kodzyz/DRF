@@ -25,24 +25,12 @@ from todo.views import ProjectGetModeViewSet, ProjectGetPostModeViewSet, ToDoGet
 # authtoken
 from rest_framework.authtoken import views
 
-router = DefaultRouter()
-filter_router = DefaultRouter()
-
-router.register('project_get', ProjectGetModeViewSet)
-router.register('project', ProjectGetPostModeViewSet)
-
-router.register('todo_get', ToDoGetModeViewSet)
-
-router.register('user', ClientUserCustomViewSet)
-
-filter_router.register('project', ProjectCustomFilterViewSet)
-filter_router.register('todo', TodoModelViewSet)
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/clientlist/', ClientAPIView.as_view()),
 
-    path('api/', include(router.urls)),
+    path('api-client/', include('client.urls')),
+    path('api-todo/', include('todo.urls')),
 
     path('project_get', project_get),
 
@@ -51,13 +39,13 @@ urlpatterns = [
     path('user_retrieve/<int:pk>', ClientUserCustomViewSet.as_view({'get': 'retrieve', 'put': 'retrieve'})),
     path('user_patch/<int:pk>', ClientUserCustomViewSet.as_view({'patch': 'retrieve'})),
     # filter_router
-    path('filters/', include(filter_router.urls)),
+    path('filters/', include('todo.urls')),
     # authentication log in -> log out
     path('api-auth/', include('rest_framework.urls')),
     # authtoken
     path('api-auth-token/', views.obtain_auth_token),
     # API version 2.0
-    path('api/<str:version>/user/', ClientUserCustomViewSet.as_view({'get': 'list'})),
+    path('api-client/<str:version>/user/', ClientUserCustomViewSet.as_view({'get': 'list'})),
 
 ]
 
