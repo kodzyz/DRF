@@ -25,6 +25,21 @@ from todo.views import ProjectGetModeViewSet, ProjectGetPostModeViewSet, ToDoGet
 # authtoken
 from rest_framework.authtoken import views
 
+# OpenAPI
+from drf_yasg.views import get_schema_view
+from drf_yasg.openapi import Info, License, Contact
+
+schema_view = get_schema_view(
+    Info(
+        title='Library',
+        default_version='1.0',
+        description='description',
+        license=License(name='MIT'),
+        contact=Contact(email='test@yandex.ru')
+    )
+
+)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/clientlist/', ClientAPIView.as_view()),
@@ -46,6 +61,9 @@ urlpatterns = [
     path('api-auth-token/', views.obtain_auth_token),
     # API version 2.0
     path('api-client/<str:version>/user/', ClientUserCustomViewSet.as_view({'get': 'list'})),
+    # OpenAPI
+    path('swagger', schema_view.with_ui()),
+
 
 ]
 
