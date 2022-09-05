@@ -167,7 +167,8 @@ REST_FRAMEWORK = {
     # 'PAGE_SIZE': 2
 
     # API version
-    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.QueryParameterVersioning'
+    #Postman->Headers->Accept=application/json;version=2.0
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.AcceptHeaderVersioning'
 }
 
 if DEBUG:
