@@ -25,7 +25,6 @@ from todo.views import ProjectGetModeViewSet, ProjectGetPostModeViewSet, ToDoGet
 # authtoken
 from rest_framework.authtoken import views
 
-
 router = DefaultRouter()
 filter_router = DefaultRouter()
 
@@ -55,8 +54,10 @@ urlpatterns = [
     path('filters/', include(filter_router.urls)),
     # authentication log in -> log out
     path('api-auth/', include('rest_framework.urls')),
-    #authtoken
+    # authtoken
     path('api-auth-token/', views.obtain_auth_token),
+    # API version 2.0
+    path('api/<str:version>/user/', ClientUserCustomViewSet.as_view({'get': 'list'})),
 
 ]
 

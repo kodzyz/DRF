@@ -3,7 +3,7 @@ from rest_framework import generics, mixins, viewsets
 from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 
 from .models import ClientUser
-from .serializers import ClientSerializer
+from .serializers import ClientSerializer, ClientSerializerV2
 
 
 class ClientAPIView(generics.ListCreateAPIView):  # GET/POST
@@ -17,4 +17,8 @@ class ClientUserCustomViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,
     """GET, PUT, PATCH, DELETE, POST"""
     queryset = ClientUser.objects.all()
     renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
-    serializer_class = ClientSerializer
+
+    def get_serializer_class(self):
+        if self.request.version == '2.0':
+            return ClientSerializerV2
+        return ClientSerializer  # version by default
