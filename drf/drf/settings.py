@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'django_filters',
 
     'rest_framework.authtoken',
+
+    'drf_yasg',  # OpenAPI
 ]
 
 MIDDLEWARE = [
@@ -165,7 +167,18 @@ REST_FRAMEWORK = {
 
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     # 'PAGE_SIZE': 2
+
+    # API version
+    #Postman->Headers->Accept=application/json;version=2.0
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.AcceptHeaderVersioning'
 }
 
 if DEBUG:
     REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'].append('rest_framework.renderers.BrowsableAPIRenderer')
+
+# Последовательность действий
+# 1) Создать новую версию API в проекте, в которой у модели пользователя будут доступны поля
+# is_superuser, is_staff. Таким образом, проект будет поддерживать две версии API.
+# 2) Создать документацию для API, используя drf-yasg.
+# 3) * Создать часть документации Swagger и/или ReDoc без использования сторонних библиотек.
+# Можно использовать минимальные примеры из стандартной документации Swagger и ReDoc.

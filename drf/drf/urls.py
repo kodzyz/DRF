@@ -25,25 +25,27 @@ from todo.views import ProjectGetModeViewSet, ProjectGetPostModeViewSet, ToDoGet
 # authtoken
 from rest_framework.authtoken import views
 
+# OpenAPI
+from drf_yasg.views import get_schema_view
+from drf_yasg.openapi import Info, License, Contact
 
-router = DefaultRouter()
-filter_router = DefaultRouter()
+schema_view = get_schema_view(
+    Info(
+        title='Library',
+        default_version='1.0',
+        description='description',
+        license=License(name='MIT'),
+        contact=Contact(email='test@yandex.ru')
+    )
 
-router.register('project_get', ProjectGetModeViewSet)
-router.register('project', ProjectGetPostModeViewSet)
-
-router.register('todo_get', ToDoGetModeViewSet)
-
-router.register('user', ClientUserCustomViewSet)
-
-filter_router.register('project', ProjectCustomFilterViewSet)
-filter_router.register('todo', TodoModelViewSet)
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/clientlist/', ClientAPIView.as_view()),
 
-    path('api/', include(router.urls)),
+    path('api-client/', include('client.urls')),
+    path('api-todo/', include('todo.urls')),
 
     path('project_get', project_get),
 
@@ -52,11 +54,16 @@ urlpatterns = [
     path('user_retrieve/<int:pk>', ClientUserCustomViewSet.as_view({'get': 'retrieve', 'put': 'retrieve'})),
     path('user_patch/<int:pk>', ClientUserCustomViewSet.as_view({'patch': 'retrieve'})),
     # filter_router
-    path('filters/', include(filter_router.urls)),
+    path('filters/', include('todo.urls')),
     # authentication log in -> log out
     path('api-auth/', include('rest_framework.urls')),
-    #authtoken
+    # authtoken
     path('api-auth-token/', views.obtain_auth_token),
+    # API version 2.0
+    path('api-client/<str:version>/user/', ClientUserCustomViewSet.as_view({'get': 'list'})),
+    # OpenAPI
+    path('swagger', schema_view.with_ui()),
+
 
 ]
 
