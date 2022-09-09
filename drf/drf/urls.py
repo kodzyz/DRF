@@ -29,6 +29,9 @@ from rest_framework.authtoken import views
 from drf_yasg.views import get_schema_view
 from drf_yasg.openapi import Info, License, Contact
 
+# graphene-django
+from graphene_django.views import GraphQLView
+
 schema_view = get_schema_view(
     Info(
         title='Library',
@@ -63,6 +66,8 @@ urlpatterns = [
     path('api-client/<str:version>/user/', ClientUserCustomViewSet.as_view({'get': 'list'})),
     # OpenAPI
     path('swagger', schema_view.with_ui()),
+    # graphene-django
+    path("graphql/", GraphQLView.as_view(graphiql=True)),
 
 
 ]
