@@ -46,26 +46,26 @@ class Query(graphene.ObjectType):
         except Project.DoesNotExist:
             return None
 
+    get_project_by_email = graphene.List(ProjectObjectType,
+                                         email=graphene.String(required=False))
+
+    def resolve_get_project_by_email(self, info, email=None):
+        project = Project.objects.all()
+        if email:
+            project = Project.objects.filter(user__email__contains=email)
+        return project
 
 # {
-#   getProjectById(pk: 1) {
+#   getProjectByEmail{
+#     id
 #     name
-#     user {
-#       id
-#       email
-#       todoSet {
-#         id
-#         content
-#       }
-#       projectSet {
-#         id
-#         name
-#       }
-#     }
-#     todoSet{
-#       id
-#       content
-#     }
+#   }
+# }
+
+# {
+#   getProjectByEmail(email: "nasta1") {
+#     id
+#     name
 #   }
 # }
 
