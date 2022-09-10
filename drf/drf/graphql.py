@@ -55,18 +55,46 @@ class Query(graphene.ObjectType):
             project = Project.objects.filter(user__email__contains=email)
         return project
 
-# {
-#   getProjectByEmail{
-#     id
-#     name
+
+class ProjectUpdateMutation(graphene.Mutation):
+    class Arguments:
+        pk = graphene.Int(required=True)
+        name = graphene.String(required=False)
+        repo = graphene.String(required=False)
+        user = graphene.Int(required=False)
+
+    project = graphene.Field(ProjectObjectType)
+
+    @classmethod
+    def mutate(cls, root, info, pk, name=None, repo=None, user=None):
+        project = Project.objects.get(pk=pk)
+        if name:
+            project.name = name
+        if repo:
+            project.repo = repo
+        if user:
+            project.user = user
+
+        if name or repo or user:
+            project.save()
+        return cls(project)
+
+
+class Mutations(graphene.ObjectType):
+    update_project = ProjectUpdateMutation.Field()
+
+
+schema = graphene.Schema(query=Query, mutation=Mutations)
+
+# mutation {
+#   updateProject(pk: 5, name: "Шаблоны") {
+#     project {
+#       id
+#       name
+#       repo
+#       user {
+#         id
+#       }
+#     }
 #   }
 # }
-
-# {
-#   getProjectByEmail(email: "nasta1") {
-#     id
-#     name
-#   }
-# }
-
-schema = graphene.Schema(query=Query)
