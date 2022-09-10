@@ -38,50 +38,35 @@ class Query(graphene.ObjectType):
     def resolve_all_user(self, info):
         return ClientUser.objects.all()
 
+    get_project_by_id = graphene.Field(ProjectObjectType, pk=graphene.Int(required=True))
 
-# запрос к связанным полям
+    def resolve_get_project_by_id(self, info, pk):
+        try:
+            return Project.objects.get(pk=pk)
+        except Project.DoesNotExist:
+            return None
+
+
 # {
-#     allTodo {
+#   getProjectById(pk: 1) {
+#     name
+#     user {
+#       id
+#       email
+#       todoSet {
 #         id
 #         content
-#         project {
-#             id
-#             name
-#             user {
-#                 id
-#                 email
-#             }
-#         }
-#         author {
-#             id
-#             firstName
-#             email
-#         }
-#     }
-# }
-# одни и те же данные два раза
-# {
-#   allProject{name}
-#   ProjectAgain:allProject{name}
-# }
-# рекурсивные запросы
-# {
-#     allUser {
+#       }
+#       projectSet {
 #         id
-#         projectSet{
-#             name
-#             user {
-#                 id
-#                 projectSet{
-#                     name
-#                 }
-#             }
-#         }
-#         todoSet{
-#             content
-#         }
+#         name
+#       }
 #     }
+#     todoSet{
+#       id
+#       content
+#     }
+#   }
 # }
-
 
 schema = graphene.Schema(query=Query)
