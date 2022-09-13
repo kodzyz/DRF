@@ -33,6 +33,10 @@ class App extends React.Component{
         }
     }
 
+    createProject(name, repo, user) {
+        console.log(name, repo, user)
+    }
+
     obtainAuthToken(login, password) {
         axios
         .post('http://127.0.0.1:8000/api-auth-token/', {
@@ -142,7 +146,7 @@ class App extends React.Component{
                         <Route exact path='/' element={<Navigate to='/users'/> } />
                         <Route exact path='/project' element={<ProjectList projects={this.state.projects} />} />
 
-                        <Route exact path='/create_project' element={<ProjectForm clients={this.state.users} />} />
+                        <Route exact path='/create_project' element={<ProjectForm clients={this.state.users} createProject={(name, repo, user) => this.createProject(name, repo, user)} />} />
 
                         <Route exact path='/todo' element={<TodoList todoes={this.state.todoes} /> }  />
                         <Route exact path='/login' element={<LoginForm obtainAuthToken={(login, password) => this.obtainAuthToken(login, password)} />} />
