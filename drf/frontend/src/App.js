@@ -9,6 +9,7 @@ import {BrowserRouter, Route, Routes, Link, Navigate, useLocation} from 'react-r
 import axios from 'axios'  //npm install axios
 import LoginForm from './components/LoginForm.js'
 import ProjectForm from './components/ProjectForm.js'
+import TodoForm from './components/TodoForm.js'
 
 
 const NotFound = () => {
@@ -47,6 +48,10 @@ class App extends React.Component{
             .catch(error => {
                 console.log(error)
             })
+    }
+
+    createTodo(content, project, author) {
+        console.log(content, project, author)
     }
 
     obtainAuthToken(login, password) {
@@ -152,15 +157,15 @@ class App extends React.Component{
                         <li> <Link to='/project'>Projects</Link></li>
                          <li> <Link to='/create_project'>Create Projects</Link></li>
                         <li> <Link to='/todo'>Notes</Link></li>
+                        <li> <Link to='/create_todo'>Create Todo</Link></li>
                         <li> {this.isAuth() ? <button onClick={() => this.logOut()} > logout </button> : <Link to='/login'> login </Link>} </li>
                      </nav>
                     <Routes>
                         <Route exact path='/' element={<Navigate to='/users'/> } />
                         <Route exact path='/project' element={<ProjectList projects={this.state.projects} />} />
-
                         <Route exact path='/create_project' element={<ProjectForm clients={this.state.users} createProject={(name, repo, user) => this.createProject(name, repo, user)} />} />
-
                         <Route exact path='/todo' element={<TodoList todoes={this.state.todoes} /> }  />
+                        <Route exact path='/create_todo' element={<TodoForm clients={this.state.users} projects={this.state.projects} createTodo={(content, project, author) => this.createTodo(content, project, author)} />} />
                         <Route exact path='/login' element={<LoginForm obtainAuthToken={(login, password) => this.obtainAuthToken(login, password)} />} />
                         <Route path='/users'>
                             <Route index element={<ClientList clients={this.state.users} />} />

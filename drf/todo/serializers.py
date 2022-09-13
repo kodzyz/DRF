@@ -26,8 +26,8 @@ class ProjectGetPostSerializer(serializers.ModelSerializer):
 
 
 class ToDoGetSerializer(serializers.ModelSerializer):
-    project = ProjectGetSerializer()
-    author = ClientSerializer()
+    #project = ProjectGetSerializer()
+    #author = ClientSerializer()
 
     class Meta:
         model = ToDo
