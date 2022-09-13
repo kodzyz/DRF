@@ -60,5 +60,5 @@ class TodoModelViewSet(ModelViewSet):
 
     def get_serializer_class(self):
         if self.request.method in ['GET']:
-            return ToDoGetSerializer
-        return ToDoSerializer
+            return ToDoSerializer
+        return ToDoGetSerializer

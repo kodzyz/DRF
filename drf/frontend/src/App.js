@@ -75,7 +75,7 @@ class App extends React.Component{
         let headers = this.getHeaders()
 
         axios
-            .get('http://127.0.0.1:8000/api/user/', {headers})
+            .get('http://127.0.0.1:8000/api-client/user/', {headers})
             .then(response => {
                 const users = response.data
                     this.setState(
@@ -90,7 +90,7 @@ class App extends React.Component{
 
             })
         axios
-            .get('http://127.0.0.1:8000/filters/project/', {headers})
+            .get('http://127.0.0.1:8000/api-todo/project/', {headers})
             .then(response => {
                 const projects = response.data
                 this.setState(
@@ -104,7 +104,7 @@ class App extends React.Component{
                 this.setState({ 'projects': [] })
             })
         axios
-            .get('http://127.0.0.1:8000/filters/todo/', {headers})
+            .get('http://127.0.0.1:8000/api-todo/todo/', {headers})
             .then(response => {
                 const todoes = response.data
                 this.setState(
