@@ -52,6 +52,19 @@ class App extends React.Component{
 
     createTodo(content, project, author) {
         console.log(content, project, author)
+
+        let headers = this.getHeaders()
+
+        axios
+            .post('http://127.0.0.1:8000/api-todo/todo/', {'content': content, 'project': project, 'author': author}, {headers})
+
+            .then(response => {
+                this.getData()
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
     }
 
     obtainAuthToken(login, password) {

@@ -7,8 +7,8 @@ class TodoForm extends React.Component {
 
         this.state = {
             'content': '',
-            'project': [],
-            'author': []
+            'project': 0,
+            'author': 0
 
         }
     }
@@ -22,38 +22,34 @@ class TodoForm extends React.Component {
     handleTodoSelect(event) {
         if (!event.target.selectedOptions) {
             this.state({
-                'project': [],
-
+                'project': 0,
             })
             return;
         }
 
-        let project = []
-
+        let project = 0
 
         for(let option of event.target.selectedOptions) {
-            project.push(option.value)
-
+            project = option.value
         }
 
         this.setState({
             'project': project,
-
         })
     }
 
     handleTodoSelect1(event) {
         if (!event.target.selectedOptions) {
             this.state({
-                'author': []
+                'author': 0
             })
             return;
         }
 
-        let author = []
+        let author = 0
 
         for(let option of event.target.selectedOptions) {
-            author.push(option.value)
+            author = option.value
         }
 
         this.setState({
