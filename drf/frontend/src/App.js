@@ -34,6 +34,14 @@ class App extends React.Component{
         }
     }
 
+    deleteTodo(todoId) {
+        console.log(todoId)
+    }
+
+    deleteProject(projectId) {
+        console.log(projectId)
+    }
+
     createProject(name, repo, user) {
     console.log(name, repo, user)
 
@@ -175,9 +183,9 @@ class App extends React.Component{
                      </nav>
                     <Routes>
                         <Route exact path='/' element={<Navigate to='/users'/> } />
-                        <Route exact path='/project' element={<ProjectList projects={this.state.projects} />} />
+                        <Route exact path='/project' element={<ProjectList projects={this.state.projects} deleteProject={(projectId) => this.deleteProject(projectId)} />} />
                         <Route exact path='/create_project' element={<ProjectForm clients={this.state.users} createProject={(name, repo, user) => this.createProject(name, repo, user)} />} />
-                        <Route exact path='/todo' element={<TodoList todoes={this.state.todoes} /> }  />
+                        <Route exact path='/todo' element={<TodoList todoes={this.state.todoes} deleteTodo={(todoId) => this.deleteTodo(todoId)} />} />
                         <Route exact path='/create_todo' element={<TodoForm clients={this.state.users} projects={this.state.projects} createTodo={(content, project, author) => this.createTodo(content, project, author)} />} />
                         <Route exact path='/login' element={<LoginForm obtainAuthToken={(login, password) => this.obtainAuthToken(login, password)} />} />
                         <Route path='/users'>

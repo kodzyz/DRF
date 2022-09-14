@@ -1,4 +1,4 @@
-const TodoItem = ({todo}) => {
+const TodoItem = ({todo, deleteTodo}) => {
     return(
         <tr>
             <td>
@@ -10,11 +10,14 @@ const TodoItem = ({todo}) => {
             <td>
                 {todo.author}
             </td>
+            <td>
+                <button onClick={() => deleteTodo(todo.id) }>Delete</button>
+            </td>
         </tr>
     )
 }
 
-const TodoList = ({todoes}) => {
+const TodoList = ({todoes, deleteTodo}) => {
     return(
         <table>
             <th>
@@ -26,7 +29,7 @@ const TodoList = ({todoes}) => {
             <th>
                 Todo author
             </th>
-            {todoes.map((todo) => < TodoItem todo={todo} />)}
+            {todoes.map((todo) => < TodoItem todo={todo} deleteTodo={deleteTodo}/>)}
         </table>
     )
 }
