@@ -36,10 +36,38 @@ class App extends React.Component{
 
     deleteTodo(todoId) {
         console.log(todoId)
+
+        let headers = this.getHeaders()
+
+        axios
+            .delete(`http://127.0.0.1:8000/api-todo/todo/${todoId}`, {headers})
+            .then(response => {
+                this.setState({
+                    'todoes': this.state.todoes.filter((todo) => todo.id != todoId)
+                })
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
     }
 
     deleteProject(projectId) {
         console.log(projectId)
+
+        let headers = this.getHeaders()
+
+        axios
+            .delete(`http://127.0.0.1:8000/api-todo/project/${projectId}`, {headers})
+            .then(response => {
+                this.setState({
+                    'projects': this.state.projects.filter((project) => project.id != projectId)
+                })
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
     }
 
     createProject(name, repo, user) {
