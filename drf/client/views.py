@@ -4,6 +4,7 @@ from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 
 from .models import ClientUser
 from .serializers import ClientSerializer, ClientSerializerV2
+from rest_framework.viewsets import ModelViewSet
 
 
 class ClientAPIView(generics.ListCreateAPIView):  # GET/POST
@@ -22,3 +23,8 @@ class ClientUserCustomViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,
         if self.request.version == '2.0':
             return ClientSerializerV2
         return ClientSerializer  # version by default
+
+
+class ClientGetModeViewSet(ModelViewSet):
+    queryset = ClientUser.objects.all()
+    serializer_class = ClientSerializerV2

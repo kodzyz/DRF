@@ -31,6 +31,8 @@ from drf_yasg.openapi import Info, License, Contact
 
 # graphene-django
 from graphene_django.views import GraphQLView
+# production
+from django.views.generic import TemplateView
 
 schema_view = get_schema_view(
     Info(
@@ -68,9 +70,12 @@ urlpatterns = [
     path('swagger', schema_view.with_ui()),
     # graphene-django
     path("graphql/", GraphQLView.as_view(graphiql=True)),
+    # production
+    path('', TemplateView.as_view(template_name='index.html'))
+
 
 
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# if settings.DEBUG:
+#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
